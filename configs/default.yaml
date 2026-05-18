@@ -1,0 +1,45 @@
+# Default configuration for the road quality pipeline.
+# Override any setting via CLI arguments.
+
+# --- Video cropping (Insta360 -> 16:9) ---
+crop:
+  yaw: 0.0
+  pitch: 0.0
+  roll: 0.0
+  h_fov: 100.0
+  width: 1920
+  height: 1080
+  crf: 18
+  preset: slow
+
+# --- YOLOE pothole detection ---
+detection:
+  conf_threshold: 0.75
+  iou_threshold: 0.30
+  img_size: 1088
+  device: 0            # 0 = CUDA:0, "cpu" for CPU
+  half_precision: true
+  min_hits: 3          # Minimum detections before confirming a pothole
+  gap_frames: 5        # Frames without detection before dropping a track
+  cooldown_sec: 0.6    # Spatial cooldown after emitting a detection
+  r_base: 50           # Base radius for spatial matching (pixels)
+  alpha_size: 0.5      # Scaling factor for bbox-area-based radius
+
+# --- Sensor feature extraction ---
+features:
+  sampling_frequency_hz: 500.0   # Estimated IMU sampling rate
+  welch_nperseg: 256             # Segment length for Welch spectral density
+
+# --- Road quality classification ---
+classification:
+  # Thresholds for prob_good -> class mapping:
+  #   prob_good < low   -> "good"
+  #   low <= prob_good < high -> "moderate"
+  #   prob_good >= high -> "poor"
+  threshold_low: 0.3
+  threshold_high: 0.7
+
+# --- Output ---
+output:
+  crs: "EPSG:4326"
+  geom_name: geometry

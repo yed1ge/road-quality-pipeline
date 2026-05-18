@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Large model files (download separately, see README)
+*.pt
+*.ts
+mobileclip_blt.*
+
+# Video and media
+*.mp4
+*.avi
+*.mov
+*.insv
+
+# Pipeline outputs
+pipeline_runs/
+runs/
+*.mbtiles
+*.sql
+
+# Geospatial outputs (generated)
+*_shp/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment / secrets
+.env
+.env.*
+
+# Logs
+logs_batch/
+*.log

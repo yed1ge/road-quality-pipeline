@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "road-quality-pipeline"
+version = "1.0.0"
+description = "End-to-end pipeline for road surface quality assessment using Insta360 camera data, YOLOE pothole detection, and sensor-based classification"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Yedige Amankul", email = "yedigeamankul@gmail.com"},
+]
+keywords = ["road-quality", "pothole-detection", "yolo", "gis", "insta360", "computer-vision"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: GIS",
+    "Topic :: Scientific/Engineering :: Image Recognition",
+]
+
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "scipy>=1.10",
+    "scikit-learn>=1.3",
+    "joblib>=1.3",
+    "opencv-python>=4.8",
+    "ultralytics>=8.1",
+    "geopandas>=0.14",
+    "shapely>=2.0",
+    "fiona>=1.9",
+    "psutil>=5.9",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff",
+    "pytest",
+]
+
+[project.urls]
+Repository = "https://github.com/yedigeamankul/road-quality-pipeline"
+
+[project.scripts]
+road-pipeline = "road_pipeline.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
