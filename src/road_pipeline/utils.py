@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import shutil
 import subprocess
 import sys
@@ -26,20 +27,35 @@ def limit_memory(fraction: float = 0.85) -> None:
         pass
 
 
+def _src_dir() -> str:
+    """Return the src/ directory that contains road_pipeline."""
+    return str(Path(__file__).resolve().parent.parent)
+
+
 def run_cmd(
     cmd: List[str] | str,
     *,
     shell: bool = False,
     cwd: Path | None = None,
 ) -> None:
-    """Run a subprocess command, raising on failure."""
+    """Run a subprocess command, raising on failure.
+
+    Ensures PYTHONPATH includes the src/ directory so that child
+    processes can import road_pipeline modules.
+    """
     display = cmd if shell else " ".join(map(str, cmd))
     print(f"[CMD] {display}")
+    env = os.environ.copy()
+    src = _src_dir()
+    existing = env.get("PYTHONPATH", "")
+    if src not in existing.split(os.pathsep):
+        env["PYTHONPATH"] = f"{src}{os.pathsep}{existing}" if existing else src
     subprocess.run(
         cmd,
         check=True,
         shell=shell,
         cwd=str(cwd) if cwd else None,
+        env=env,
     )
 
 

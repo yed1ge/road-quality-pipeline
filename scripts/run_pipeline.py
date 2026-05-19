@@ -170,8 +170,8 @@ def step_detect(
     print("[INFO] YOLOE detection in clean workdir...")
     cmd = [
         python_exe(), "-m", "road_pipeline.detect",
-        "--video", str(cropped_video),
-        "--weights", str(weights),
+        "--video", str(cropped_video.resolve()),
+        "--weights", str(weights.resolve()),
     ]
     cmd += ["--save-video"] if save_video else ["--no-save-video"]
     cmd += ["--save-screenshots"] if save_screenshots else ["--no-save-screenshots"]

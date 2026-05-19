@@ -154,11 +154,11 @@ def run_predictions(
 
     df_new = features_df.copy()
 
-    drop_cols = [
-        "window_id", "gps_lat_start", "gps_lon_start",
-        "gps_lat_end", "gps_lon_end", "gps_fix_mode",
-    ]
-    X_new = df_new.drop(columns=[c for c in drop_cols if c in df_new.columns], errors="ignore")
+    expected_features = list(scaler.feature_names_in_)
+    missing = [f for f in expected_features if f not in df_new.columns]
+    if missing:
+        raise RuntimeError(f"Missing features expected by scaler: {missing}")
+    X_new = df_new[expected_features].fillna(0)
     X_scaled = scaler.transform(X_new)
 
     all_probs = model.predict_proba(X_scaled)
